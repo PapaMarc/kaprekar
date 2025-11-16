@@ -26,13 +26,9 @@ class Program
         return uniqueDigits.Count >= 2;
     }
 
-    // Prompts the user to enter a 4-digit number and returns it if valid
-    // If invalid, returns -1 to signal fallback is needed
-    static int GetUserKaprekarInput()
+    // Validates and parses user input into a valid Kaprekar number
+    static int? TryParseKaprekarInput(string? input)
     {
-        PrintMessage("Enter a 4-digit number with at least two different digits:");
-        string? input = Console.ReadLine();
-
         if (!string.IsNullOrWhiteSpace(input) &&
             int.TryParse(input, out int userNumber) &&
             userNumber >= 0 && userNumber <= 9999 &&
@@ -41,7 +37,7 @@ class Program
             return userNumber;
         }
 
-        return -1;
+        return null;
     }
 
     // Returns a summary of digit uniqueness: how many are unique vs duplicated
@@ -99,22 +95,33 @@ class Program
 
     // Entry point: prompts user, validates input, falls back to random if needed
     static void Main()
+{
+    string? retryInput = "init"; // dummy to enter loop
+
+    while (!string.IsNullOrWhiteSpace(retryInput))
     {
         int kaprekarInput;
 
-        int userInput = GetUserKaprekarInput();
-        if (userInput == -1)
+        PrintMessage("Enter a 4-digit number with at least two different digits (or press Enter to exit):");
+        retryInput = Console.ReadLine();
+
+        if (string.IsNullOrWhiteSpace(retryInput))
+            break;
+
+        int? parsed = TryParseKaprekarInput(retryInput);
+        if (parsed.HasValue)
         {
-            PrintMessage("Invalid Kaprekar input. A random valid number will be used instead.");
-            kaprekarInput = RandoNo();
+            kaprekarInput = parsed.Value;
         }
         else
         {
-            kaprekarInput = userInput;
+            PrintMessage("Invalid input. A random valid number will be used instead.");
+            kaprekarInput = RandoNo();
         }
 
         PrintMessage("Kaprekar starting number: " + kaprekarInput);
         PrintMessage(GetDigitUniquenessSummary(kaprekarInput));
         RunKaprekarRoutine(kaprekarInput);
+        }
     }
 }
