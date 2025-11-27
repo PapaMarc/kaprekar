@@ -91,6 +91,7 @@ class Program
         }
 
         PrintMessage($"Kaprekar's constant reached in {iterations} iteration{(iterations != 1 ? "s" : "")}.");
+        PrintMessage(""); // Blank line after convergence
     }
 
     // Entry point: prompts user, validates input, falls back to random if needed
