@@ -18,6 +18,7 @@ The codebase is single-file (`Program.cs`) with a functional style:
 ## Critical Developer Workflow
 
 **Build & Run**:
+
 ```powershell
 dotnet build
 dotnet run
@@ -45,6 +46,7 @@ dotnet run
 ## Key Validation Rules
 
 When modifying input validation or the routine:
+
 - **Kaprekar requires ≥2 distinct digits** - e.g., 1111 is invalid, 1234 is valid.
 - **Numbers outside 0-9999 are rejected** - enforced in `TryParseKaprekarInput()`.
 - **The constant is always 6174** - hard-coded, not parameterized (appropriate for this mathematical property).
@@ -53,6 +55,7 @@ When modifying input validation or the routine:
 ## Testing Considerations
 
 The app is interactive/manual-test driven. If adding unit tests, focus on:
+
 - `IsValidKaprekarInput()` - boundary cases (0, 1111, 9999, mixed digits).
 - `GetDigitUniquenessSummary()` - frequency accuracy.
 - `RunKaprekarRoutine()` - convergence to 6174 regardless of valid input.
